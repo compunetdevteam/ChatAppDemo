@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.SignalR;
 using SignalRExample.Models;
 using System;
+using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +24,22 @@ namespace SignalRExample
         public void GetUser()
         {
             var list = _db.Users.ToList();
-            Clients.Caller.onGetUser(list);
+            string userimg = "/images/DP/dummy.png";
+            var loginDate = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            Clients.Caller.onGetUser(list, loginDate, userimg);
+
+        }
+
+        public void RegisterUser(string userId, string connectionId)
+        {
+            var user = _db.Users.FirstOrDefault(x => x.Id.Equals(userId));
+            if (user != null)
+            {
+                user.ConnectionId = connectionId;
+                _db.Entry(user).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+            Clients.Caller.onRegisterUser(user);
 
         }
 
@@ -38,20 +55,22 @@ namespace SignalRExample
         public void SendPrivateMessage(string toUserId, string message, string sender)
         {
 
-            string fromUserId = Context.ConnectionId;
+            //string fromUserId = sender;
 
             var toUser = _db.Users.FirstOrDefault(x => x.Id == toUserId);
             var fromUser = _db.Users.FirstOrDefault(x => x.Id.Equals(sender));
 
             if (toUser != null && fromUser != null)
             {
-                string CurrentDateTime = DateTime.Now.ToString();
-                string UserImg = "";
+                string CurrentDateTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                string userimg = "/images/DP/dummy.png";
+                var windowId = sender;
+                var fromUserName = fromUser.UserName;
                 // send to 
-                Clients.Client(toUserId).sendPrivateMessage(fromUserId, fromUser.UserName, message, UserImg, CurrentDateTime);
-
+                Clients.Client(toUser.ConnectionId).sendPrivateMessage(windowId, fromUserName, message, userimg, CurrentDateTime);
+                windowId = toUserId;
                 // send to caller user
-                Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message, UserImg, CurrentDateTime);
+                Clients.Caller.sendPrivateMessage(windowId, fromUserName, message, userimg, CurrentDateTime);
             }
 
         }
