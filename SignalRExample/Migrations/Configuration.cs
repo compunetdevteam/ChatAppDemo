@@ -9,8 +9,7 @@ namespace SignalRExample.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            ContextKey = "SignalRExample.Models.ApplicationDbContext";
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(SignalRExample.Models.ApplicationDbContext context)

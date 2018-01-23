@@ -1,0 +1,284 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Chat";
+}
+<!--Group Chat Begins-->
+<div class="container" id="main-content">
+<div class="col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12" id="group-chatbox">
+<div class="ui-block">
+<div class="row">
+    <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-l-0">
+
+        <!-- Chat Field -->
+
+        <div class="chat-field">
+            <div class="ui-block-title">
+                <h4 class="title">Group Chat</h4>
+                @*<span class="group-opts"><a href="#" id="minimize"><i class="fa fa-minus minimizeit"></i></a><a href="#"><i id="close" class="fa fa-times closeit"></i></a></span>*@
+            </div>
+            <div class="mCustomScrollbar" data-mcs-theme="dark">
+                <ul class="notification-list chat-message chat-message-field">
+                    
+                </ul>
+            </div>
+
+            <form>
+
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label">Write your message here...</label>
+                    <textarea class="form-control" placeholder="" id="send-group"></textarea>
+                </div>
+
+                <div class="add-options-message">
+                    <button class="btn btn-primary btn-sm" id="post-message">Post message</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- ... end Chat Field -->
+    </div>
+</div>
+    </div>
+    </div>
+<!--Group Chat Ends-->
+<!--Chat Toggle Icon at the top right begins-->
+<div class="page-topbar">
+    <div class="quick-area">
+        <div class="pull-right">
+            <ul class="info-menu right-links list-inline list-unstyled">
+                <li class="chat-toggle-wrapper">
+                    <a href="#" data-toggle="chatbar" class="toggle_chat">
+                        <i class="fa fa-comments"></i>
+                        <span class="badge badge-accent">9</span>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--Chat Toggle Icon at the top right ends-->
+
+<!--Chatbox begins-->
+<div class="page-chatapi showit">
+    <div class="search-bar" style="">
+        <input placeholder="Search" class="form-control" type="text">
+    </div>
+    <div class="chat-wrapper ps-container ps-active-y" style="height: 327px;">
+        <h4 class="group-head">Online Users</h4>
+        <ul class="contact-list"></ul>
+    </div>
+</div>
+<div class="chatapi-windows showit">
+    <div class="user-window" id="user-window1" data-user-id="1" style="display: none;"><div class="controlbar"><img src="~/images/DP/dummy.png" data-user-id="1" rel="tooltip" data-animate="animated fadeIn" data-toggle="tooltip" data-original-title="Clarine Vassar" data-placement="top" data-color-class="primary"><span class="status available"><i class="fa fa-circle"></i></span><span class="name">Clarine Vassar</span><span class="opts"><i class="fa fa-times closeit" data-user-id="1"></i><i class="fa fa-minus minimizeit" data-user-id="1"></i></span></div><div class="chatarea"><div class="chatmsg msg_receive"><span class="name">Clarine Vassar</span><span class="text">Wow! What a Beautiful theme!</span><span class="ts">11:28</span></div><div class="chatmsg msg_sent"><span class="name">You</span><span class="text">Yes! Crest Admin Theme ;)</span><span class="ts">11:28</span></div></div><div class="typearea"><input data-user-id="1" placeholder="Type &amp; Enter" class="form-control" type="text"></div></div>
+</div>
+    </div>
+<!--Chatbox ends-->
+
+@section scripts {
+    @*
+        Load Javascript Dependencies for SignalR Chat
+    *@
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(document).ready(function () {
+            var chatarea = $(".page-chatapi");
+            //Create connection object  from signalR
+            var chat = $.connection.chatHub;
+            var username = '@User.Identity.GetUserName()';
+            var userimage = "/images/DP/dummy.png";
+
+            chat.client.onGetUser = function (list, loginDate, userimg) {
+                var waitingList = list;
+                //loop through logged in users
+                for (var i = 0; i < waitingList.length; i++) {
+                    AddUser(list[i].Id, list[i].UserName, userimg);
+                }
+
+            };
+
+            //Function initiated by the server side due to sent private message by another user
+            chat.client.sendPrivateMessage = function (windowId, fromUserName, message, userimg, CurrentDateTime) {
+                msg = chatformat_msg_recipient(message, 'receive', fromUserName);
+                //Check if chatbox has been created/exits (append if true else create new chatbox, append message and show)
+                if ($('#' + windowId).hasClass("active")) {
+                    $(".chatapi-windows #user-window" + windowId + " .chatarea").append(msg);
+                    $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
+                } else {
+                    $('#' + windowId).toggleClass("active");
+                    if ($(".chatapi-windows #user-window" + windowId).length) {
+
+                        $(".chatapi-windows #user-window" + windowId).removeClass("minimizeit").show();
+                        $(".chatapi-windows #user-window" + windowId + " .chatarea").append(msg);
+                        $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
+
+                    } else {
+                        var html = "<div class='user-window' id='user-window" + id + "' data-user-id='" + id + "'>";
+                        html += "<div class='controlbar'><img src='" + img + "' data-user-id='" + id + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + name + "' data-placement='top' data-color-class='primary'><span class='status " + status + "'><i class='fa fa-circle'></i></span><span class='name'>" + name + "</span><span class='opts'><i class='fa fa-times closeit' data-user-id='" + id + "'></i><i class='fa fa-minus minimizeit' data-user-id='" + id + "'></i></span></div>";
+                        html += "<div class='chatarea'>" + msg + "</div>";
+                        html += "<div class='typearea'><input type='text' data-user-id='" + id + "' placeholder='Type & Enter' class='form-control'></div>";
+                        html += "</div>";
+                        $(".chatapi-windows").append(html);
+                        $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
+                    }
+                    }
+            }
+
+            //Function initiated by the server side due to sent group message by another user
+            chat.client.addNewMessageToPage = function (name, message, userCount, list) {
+                var d = new Date();
+                var h = d.getHours();
+                var m = d.getMinutes();
+                if (name === username) {
+                    $('.chat-message-field').append('<li class="group-chat-others">' +
+                        '<div class="author-thumb" >' +
+                        '<img src="/images/DP/dummy.png" alt="author">' +
+                        '</div>' +
+                        '<div class="notification-event">' +
+                        '<h6 class="notification-friend">' + name + '</h6>' +
+                        '<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">' + h + ":" + m + '</time></span>' +
+                        '<span class="chat-message-item">' + message + '</span>' +
+                        '</div>' +
+                        '</li>');
+                    $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar")[0].scrollHeight);
+                } else {
+                    $('.chat-message-field').append('<li class="group-chat-me">' +
+                        '<div class="author-thumb" >' +
+                        '<img src="/images/DP/dummy.png" alt="author">' +
+                        '</div>' +
+                        '<div class="notification-event">' +
+                        '<h6 class="notification-friend">' + name + '</h6>' +
+                        '<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">' + h + ":" + m + '</time></span>' +
+                        '<span class="chat-message-item">' + message + '</span>' +
+                        '</div>' +
+                        '</li>');
+                    $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar")[0].scrollHeight);
+                }
+                
+            };
+
+            //Call back function for hub.start making a call to ChatHub class (c#)
+            $.connection.hub.start().done(function () {
+                var userId = '@User.Identity.GetUserId()';
+                var conId = $.connection.hub.id;
+                chat.server.registerUser(userId, conId);
+                //calls getUser on ChatHub class (c#) which initiates chat.client.onGetUser
+                chat.server.getUser();
+            });
+
+            //Enter keypress function to listen and send private message
+            $(document).on('keypress', ".chatapi-windows .user-window .typearea input", function (e) {
+                if (e.keyCode == 13) {
+                    var id = $(this).attr("data-user-id");
+                    var msg = $(this).val();
+                    var userId = '@User.Identity.GetUserId()';
+                    //send message to recipient
+                    chat.server.sendPrivateMessage(id, msg, userId);
+                    msg = chatformat_msg(msg, 'sent', 'You');
+                    //Add message to senders chat window
+                    $(".chatapi-windows #user-window" + id + " .chatarea").append(msg);
+                    $(this).val("");
+                    $(this).focus();
+                    $(".chatapi-windows #user-window" + id + " .chatarea").scrollTop($(".chatapi-windows #user-window" + id + " .chatarea")[0].scrollHeight);
+                }
+                $(".chatapi-windows #user-window" + id + " .chatarea").perfectScrollbar({
+                    suppressScrollX: true
+                });
+            });
+
+            //Enter keypress function to listen and send group message
+            $('#post-message').click(function () {
+                chat.server.send(username, $('#send-group').val());
+                $('#send-group').val('').focus();
+            });
+
+            $('#close').click(function () {
+                $('#group-chatbox').css({'display':'none'});
+            });
+        });
+
+        //AddUser function to add users to online users list
+        function AddUser(id, username, userimage) {
+            //create html template for user being added to the list
+            var html = '<li class="user-row" id="chat_user_'+id+'" data-user-id="'+id+'" onclick="openChatBox(\'chat_user_'+id+'\')">\n'+
+                '<div class="user-img">\n' +
+                '<a href="#"><img src="' + userimage + '" alt=""></a>\n' +
+                '</div>\n'+
+            '<div class="user-info">\n' +
+            '<h4><a href="#">' + username + '</a></h4>\n' +
+                            '<span class="status available" data-status="available">Available</span>\n'+
+                        '</div>\n'+
+                        '<div class="user-status available">\n'+
+                            '<i class="fa fa-circle"></i>\n'+
+                        '</div>\n'+
+                '</li>\n';
+            $('.contact-list').append(html);
+        }
+
+
+        //Toggle chat box display
+        function openChatBox(userId) {
+                var name = $('#'+userId).find(".user-info h4 a").html();
+                var img = $('#' +userId).find(".user-img a img").attr("src");
+                var id = $('#' +userId).attr("data-user-id");
+                var status = $('#' +userId).find(".user-info .status").attr("data-status");
+
+                if ($('#' + userId).hasClass("active")) {
+                    $('#' + userId).toggleClass("active");
+
+                    $(".chatapi-windows #user-window" + id).hide();
+
+                } else {
+                    $('#' + userId).toggleClass("active");
+
+                    //Check if chatbox has been created/exits (show if true else create new chatbox and show)
+                    if ($(".chatapi-windows #user-window" + id).length) {
+
+                        $(".chatapi-windows #user-window" + id).removeClass("minimizeit").show();
+
+                    } else {
+                        //var msg = chatformat_msg('Wow! What a Beautiful theme!', 'receive', name);
+                        //msg += chatformat_msg('Yes! Crest Admin Theme ;)', 'sent', 'You');
+                        var msg = chatformat_msg('', '', '');
+                        var html = "<div class='user-window' id='user-window" + id + "' data-user-id='" + id + "'>";
+                        html += "<div class='controlbar'><img src='" + img + "' data-user-id='" + id + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + name + "' data-placement='top' data-color-class='primary'><span class='status " + status + "'><i class='fa fa-circle'></i></span><span class='name'>" + name + "</span><span class='opts'><i class='fa fa-times closeit' data-user-id='" + id + "'></i><i class='fa fa-minus minimizeit' data-user-id='" + id + "'></i></span></div>";
+                        html += "<div class='chatarea'>" + msg + "</div>";
+                        html += "<div class='typearea'><input type='text' data-user-id='" + id + "' placeholder='Type & Enter' class='form-control'></div>";
+                        html += "</div>";
+                        $(".chatapi-windows").append(html);
+                        $(".chatapi-windows #user-window" + id + " .chatarea").scrollTop($(".chatapi-windows #user-window" + id + " .chatarea")[0].scrollHeight);
+                    }
+                }
+        }
+
+        //create format for message to display in chat box
+        function chatformat_msg(msg, type, name) {
+            var d = new Date();
+            var h = d.getHours();
+            var m = d.getMinutes();
+            if (msg === '') {
+                return "<div class='chatmsg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'></span></div>";
+            }
+            else {
+                return "<div class='chatmsg recipient_msg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'>" + h + ":" + m + "</span></div>";
+            }
+        }
+
+        function chatformat_msg_recipient(msg, type, name) {
+            var d = new Date();
+            var h = d.getHours();
+            var m = d.getMinutes();
+            if (msg === '') {
+                return "<div class='chatmsg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'></span></div>";
+            }
+            else {
+                return "<div class='chatmsg sender_msg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'>" + h + ":" + m + "</span></div>";
+            }
+        }
+    </script>
+}
+

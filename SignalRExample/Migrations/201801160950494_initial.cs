@@ -3,7 +3,7 @@ namespace SignalRExample.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -49,6 +49,7 @@ namespace SignalRExample.Migrations
                         Id = c.String(nullable: false, maxLength: 128),
                         LoginTime = c.String(),
                         UserImage = c.String(),
+                        ConnectionId = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

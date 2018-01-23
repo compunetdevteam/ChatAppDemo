@@ -35,6 +35,12 @@ namespace SignalRExample.Controllers
             return View();
         }
 
+        public ActionResult newChat()
+        {
+            ViewBag.Message = "Your New Chat Page";
+            return View();
+        }
+
 
         //public ActionResult SaveImage(object sender, EventArgs e)
         //{

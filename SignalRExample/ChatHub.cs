@@ -22,7 +22,7 @@ namespace SignalRExample
 
         }
         public void GetUser()
-        {
+        {   
             var list = _db.Users.ToList();
             string userimg = "/images/DP/dummy.png";
             var loginDate = DateTime.Now.ToString(CultureInfo.InvariantCulture);
@@ -68,9 +68,9 @@ namespace SignalRExample
                 var fromUserName = fromUser.UserName;
                 // send to 
                 Clients.Client(toUser.ConnectionId).sendPrivateMessage(windowId, fromUserName, message, userimg, CurrentDateTime);
-                windowId = toUserId;
+               //windowId = toUserId;
                 // send to caller user
-                Clients.Caller.sendPrivateMessage(windowId, fromUserName, message, userimg, CurrentDateTime);
+                //Clients.Caller.sendPrivateMessage(windowId, fromUserName, message, userimg, CurrentDateTime);
             }
 
         }
