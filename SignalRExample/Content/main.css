@@ -9794,13 +9794,33 @@ right:20px;
 }
 
 .group-chat-others {
-    background: #7c5ac2;
+    background: #f0f4f9;
     padding: 5px;
-    width:80%;
-    margin-left:15%;
+    width: 80%;
+    margin-left: 17%;
+    border-radius:10px;
+    margin-top:5px;
 }
 
-    .group-chat-others::before, .group-chat-others::after {
+.group-chat-others .author-thumb {
+    float: right;
+}
+
+.group-chat-others .notification-event{
+    float:right;
+}
+
+.group-chat-others .notification-event .chat-message-item{
+float:right;
+} 
+
+.group-chat-others .notification-event .notification-date{
+    position:absolute;
+    top:5px;
+    left:10px;
+}
+
+.group-chat-others::before, .group-chat-others::after {
         position: absolute;
         right: 100%;
         top: 15px;
@@ -9809,7 +9829,7 @@ right:20px;
         border-right-width: thick;
         border-bottom-width: thick;
         border-left-width: thick;
-        border-left-color: #7c5ac2;
+        border-left-color: #f0f4f9;
         border-right-color: transparent;
         content: ' ';
         height: 0;
@@ -9829,8 +9849,15 @@ right:20px;
         border-left-color: transparent;
     }
 
-
-    .group-chat-me::before, .sender_msg::after {
+.group-chat-me {
+    background: rgb(40, 156, 214);
+    padding: 5px;
+    width: 80%;
+    margin-left: 3%;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+    .group-chat-me::before, .group-chat-me::after {
         position: absolute;
         right: 100%;
         top: 15px;
