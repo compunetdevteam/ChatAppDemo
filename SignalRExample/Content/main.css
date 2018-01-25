@@ -9794,7 +9794,7 @@ right:20px;
 }
 
 .group-chat-others {
-    background: #f0f4f9;
+    background: #c0bbea;
     padding: 5px;
     width: 80%;
     margin-left: 17%;
@@ -9820,7 +9820,7 @@ float:right;
     left:10px;
 }
 
-.group-chat-others::before, .group-chat-others::after {
+    .group-chat-others::before, .group-chat-others::after {
         position: absolute;
         right: 100%;
         top: 15px;
@@ -9829,7 +9829,7 @@ float:right;
         border-right-width: thick;
         border-bottom-width: thick;
         border-left-width: thick;
-        border-left-color: #f0f4f9;
+        border-left-color: #c0bbea;
         border-right-color: transparent;
         content: ' ';
         height: 0;
@@ -9850,7 +9850,7 @@ float:right;
     }
 
 .group-chat-me {
-    background: rgb(40, 156, 214);
+    background: rgb(163, 218, 246);
     padding: 5px;
     width: 80%;
     margin-left: 3%;
@@ -9868,7 +9868,7 @@ float:right;
         border-left-width: medium;
         border-right-color: transparent;
         border-left-color: transparent;
-        border-right-color: rgb(40, 156, 214);
+        border-right-color: rgb(163, 218, 246);
         content: ' ';
         height: 0;
         width: 0;
