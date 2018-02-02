@@ -9886,3 +9886,17 @@ float:right;
     border-width: 5px;
     margin-top: -5px;
 }
+
+#offcanvas-chat {
+    position: absolute;
+    bottom: 0;
+    min-width: 8px;
+    background-color: #ffffff;
+    overflow: auto;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: -webkit-transform 0.33s ease-in;
+    -moz-transition: -moz-transform 0.33s ease-in;
+    -o-transition: -o-transform 0.33s ease-in;
+    transition: transform 0.33s ease-in;
+}

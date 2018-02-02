@@ -3,85 +3,116 @@
 @{
     ViewBag.Title = "Chat";
 }
-<!--Group Chat Begins-->
-<div class="container" id="main-content">
-<div class="col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-xs-12" id="group-chatbox">
-<div class="ui-block">
-<div class="row">
-    <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-xs-12 padding-l-0">
 
-        <!-- Chat Field -->
-
-        <div class="chat-field">
-            <div class="ui-block-title">
-                <h4 class="title">Group Chat</h4>
-                @*<span class="group-opts"><a href="#" id="minimize"><i class="fa fa-minus minimizeit"></i></a><a href="#"><i id="close" class="fa fa-times closeit"></i></a></span>*@
-            </div>
-            <div class="mCustomScrollbar" data-mcs-theme="dark">
-                <ul class="notification-list chat-message chat-message-field">
-                    
-                </ul>
-            </div>
-
-            <form>
-
-                <div class="form-group label-floating is-empty">
-                    <label class="control-label">Write your message here...</label>
-                    <textarea class="form-control" placeholder="" id="send-group"></textarea>
-                </div>
-
-                <div class="add-options-message">
-                    <button class="btn btn-primary btn-sm" id="post-message">Post message</button>
-                </div>
-
-            </form>
-
-        </div>
-
-        <!-- ... end Chat Field -->
-    </div>
-</div>
-    </div>
-    </div>
-<!--Group Chat Ends-->
-<!--Chat Toggle Icon at the top right begins-->
-<div class="page-topbar">
-    <div class="quick-area">
-        <div class="pull-right">
-            <ul class="info-menu right-links list-inline list-unstyled">
-                <li class="chat-toggle-wrapper">
-                    <a href="#" data-toggle="chatbar" class="toggle_chat">
-                        <i class="fa fa-comments"></i>
-                        <span class="badge badge-accent">9</span>
-                        <i class="fa fa-times"></i>
+<!-- BEGIN HEADER-->
+<header id="header">
+    <div class="headerbar">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="headerbar-left">
+            <ul class="header-nav header-nav-options">
+                <li class="header-nav-brand">
+                    <div class="brand-holder">
+                        <a href="../../html/dashboards/dashboard.html">
+                            <span class="text-lg text-bold text-primary">MATERIAL ADMIN</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <a class="btn btn-icon-toggle menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+                        <i class="fa fa-bars"></i>
                     </a>
                 </li>
             </ul>
         </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="headerbar-right">
+            <ul class="header-nav header-nav-toggle">
+                <li>
+                    <a class="btn btn-icon-toggle btn-default" href="#offcanvas-search" data-toggle="offcanvas" data-backdrop="false">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                </li>
+            </ul><!--end .header-nav-toggle -->
+        </div><!--end #header-navbar-collapse -->
     </div>
-</div>
-<!--Chat Toggle Icon at the top right ends-->
+</header>
+<!-- END HEADER-->
+<!-- BEGIN BASE-->
+<div id="base">
 
-<!--Chatbox begins-->
-<div class="page-chatapi showit">
-    <div class="search-bar" style="">
-        <input placeholder="Search" class="form-control" type="text">
-    </div>
-    <div class="chat-wrapper ps-container ps-active-y" style="height: 327px;">
-        <h4 class="group-head">Online Users</h4>
-        <ul class="contact-list"></ul>
-    </div>
+    <!-- BEGIN OFFCANVAS LEFT -->
+    <div class="offcanvas"></div><!--end .offcanvas-->
+    <!-- END OFFCANVAS LEFT -->
+    <!-- BEGIN OFFCANVAS RIGHT -->
+    <div class="offcanvas">
+        <!-- BEGIN OFFCANVAS SEARCH -->
+        <div id="offcanvas-search" class="offcanvas-pane width-8">
+            <div class="offcanvas-head">
+                <header class="text-primary">Online Users</header>
+                <div class="offcanvas-tools">
+                    <a class="btn btn-icon-toggle btn-default-light pull-right" data-dismiss="offcanvas">
+                        <i class="md md-close"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="offcanvas-body no-padding">
+                <ul class="list">
+                    <li class="tile divider-full-bleed">
+                        <div class="tile-content">
+                            <div class="tile-text"></div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="list" id="contact-list"></ul>
+            </div><!--end .offcanvas-body -->
+        </div><!--end .offcanvas-pane -->
+        <!-- END OFFCANVAS SEARCH -->
+        <div id="offcanvas-chat" class="offcanvas-pane style-default-light width-12">
+            <div class="offcanvas-head style-default-bright">
+                <header class="text-primary">Chat with Ann Laurens</header>
+                <div class="offcanvas-tools">
+                    <a class="btn btn-icon-toggle btn-default-light pull-right" data-dismiss="offcanvas">
+                        <i class="md md-close"></i>
+                    </a>
+                    <a class="btn btn-icon-toggle btn-default-light pull-right" href="#offcanvas-search" data-toggle="offcanvas" data-backdrop="false">
+                        <i class="md md-arrow-back"></i>
+                    </a>
+                </div>
+                <form class="form">
+                    <div class="form-group floating-label">
+                        <textarea name="sidebarChatMessage" id="sidebarChatMessage" class="form-control autosize" rows="1"></textarea>
+                        <label for="sidebarChatMessage">Leave a message</label>
+                    </div>
+                </form>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-chats">
+                    <li>
+                        <div class="chat">
+                            <div class="chat-avatar"><img class="img-circle" src="../../assets/img/avatar1.jpg?1403934956" alt="" /></div>
+                            <div class="chat-body">
+                                Yes, it is indeed very beautiful.
+                                <small>10:03 pm</small>
+                            </div>
+                        </div><!--end .chat -->
+                    </li>
+                </ul>
+            </div><!--end .offcanvas-body -->
+        </div>
+        <!-- END OFFCANVAS RIGHT -->
+
+    </div><!--end #base-->
 </div>
-<div class="chatapi-windows showit">
-    <div class="user-window" id="user-window1" data-user-id="1" style="display: none;"><div class="controlbar"><img src="~/images/DP/dummy.png" data-user-id="1" rel="tooltip" data-animate="animated fadeIn" data-toggle="tooltip" data-original-title="Clarine Vassar" data-placement="top" data-color-class="primary"><span class="status available"><i class="fa fa-circle"></i></span><span class="name">Clarine Vassar</span><span class="opts"><i class="fa fa-times closeit" data-user-id="1"></i><i class="fa fa-minus minimizeit" data-user-id="1"></i></span></div><div class="chatarea"><div class="chatmsg msg_receive"><span class="name">Clarine Vassar</span><span class="text">Wow! What a Beautiful theme!</span><span class="ts">11:28</span></div><div class="chatmsg msg_sent"><span class="name">You</span><span class="text">Yes! Crest Admin Theme ;)</span><span class="ts">11:28</span></div></div><div class="typearea"><input data-user-id="1" placeholder="Type &amp; Enter" class="form-control" type="text"></div></div>
+<div class="container" id="main-content">
+    <div class="chatapi-windows showit"></div>
 </div>
-    </div>
-<!--Chatbox ends-->
+<!-- END BASE -->
 
 @section scripts {
     @*
         Load Javascript Dependencies for SignalR Chat
     *@
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
@@ -106,24 +137,36 @@
                 msg = chatformat_msg_recipient(message, 'receive', fromUserName);
                 //Check if chatbox has been created/exits (append if true else create new chatbox, append message and show)
                 if ($('#' + windowId).hasClass("active")) {
-                    $(".chatapi-windows #user-window" + windowId + " .chatarea").append(msg);
-                    $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
+                    $(".chatapi-windows #user-window" + windowId + " .offcanvas-body .list-chats").prepend(msg);
                 } else {
                     $('#' + windowId).toggleClass("active");
                     if ($(".chatapi-windows #user-window" + windowId).length) {
 
                         $(".chatapi-windows #user-window" + windowId).removeClass("minimizeit").show();
-                        $(".chatapi-windows #user-window" + windowId + " .chatarea").append(msg);
-                        $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
-
+                        $(".chatapi-windows #user-window" + windowId + " .offcanvas-body .list-chats").prepend(msg);
                     } else {
-                        var html = "<div class='user-window' id='user-window" + id + "' data-user-id='" + id + "'>";
-                        html += "<div class='controlbar'><img src='" + img + "' data-user-id='" + id + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + name + "' data-placement='top' data-color-class='primary'><span class='status " + status + "'><i class='fa fa-circle'></i></span><span class='name'>" + name + "</span><span class='opts'><i class='fa fa-times closeit' data-user-id='" + id + "'></i><i class='fa fa-minus minimizeit' data-user-id='" + id + "'></i></span></div>";
-                        html += "<div class='chatarea'>" + msg + "</div>";
-                        html += "<div class='typearea'><input type='text' data-user-id='" + id + "' placeholder='Type & Enter' class='form-control'></div>";
+                        var html = "<div class='user-window' id='user-window" + windowId + "' data-user-id='" + windowId + "'>";
+                        html += "<div class='controlbar'>";
+                        html += "<img src='" + userimg + "' data-user-id='" + windowId + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + fromUserName + "' data-placement='top' data-color-class='primary' />";
+                        html += "<span class='status " + status + "'><i class='fa fa-circle'></i></span>";
+                        html += "<span class='name' > " + fromUserName + "</span >";
+                        html += "<span class='opts'><i class='md md-close closeit' data-user-id='" + windowId + "'></i><i class='md md-arrow-back minimizeit' data-user-id='" + windowId + "'></i></span>";
+                        html += "</div>";
+                        html += "<div class='offcanvas-head style-default-bright'>";
+                        html += "<form class='form'>";
+                        html += "<div class='form-group floating-label'>"
+                        html += "<input name='chatMessage' id='chatMessage' class='form-control autosize' data-user-id='" + windowId + "'/>";
+                        html += "<label for='chatMessage'>Type & Enter</label>";
+                        html += "</div>";
+                        html += "</form>";
+                        html += "</div>";
+                        html += "<div class='offcanvas-body'>";
+                        html += "<ul class='list-chats'>"+msg;
+                        html += "</ul>";
+                        html += "</div>";
                         html += "</div>";
                         $(".chatapi-windows").append(html);
-                        $(".chatapi-windows #user-window" + windowId + " .chatarea").scrollTop($(".chatapi-windows #user-window" + windowId + " .chatarea")[0].scrollHeight);
+                        $(".chatapi-windows").removeClass('hideit').addClass('showit');
                     }
                     }
             }
@@ -159,7 +202,7 @@
                         '</li>');
                     $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar")[0].scrollHeight);
                 }
-                
+
             };
 
             //Call back function for hub.start making a call to ChatHub class (c#)
@@ -172,7 +215,7 @@
             });
 
             //Enter keypress function to listen and send private message
-            $(document).on('keypress', ".chatapi-windows .user-window .typearea input", function (e) {
+            $(document).on('keypress', "#chatMessage", function (e) {
                 if (e.keyCode == 13) {
                     var id = $(this).attr("data-user-id");
                     var msg = $(this).val();
@@ -181,10 +224,10 @@
                     chat.server.sendPrivateMessage(id, msg, userId);
                     msg = chatformat_msg(msg, 'sent', 'You');
                     //Add message to senders chat window
-                    $(".chatapi-windows #user-window" + id + " .chatarea").append(msg);
+                    $(".chatapi-windows #user-window" + id + " .offcanvas-body .list-chats").prepend(msg);
                     $(this).val("");
                     $(this).focus();
-                    $(".chatapi-windows #user-window" + id + " .chatarea").scrollTop($(".chatapi-windows #user-window" + id + " .chatarea")[0].scrollHeight);
+                    e.preventDefault();
                 }
                 $(".chatapi-windows #user-window" + id + " .chatarea").perfectScrollbar({
                     suppressScrollX: true
@@ -205,55 +248,65 @@
         //AddUser function to add users to online users list
         function AddUser(id, username, userimage) {
             //create html template for user being added to the list
-            var html = '<li class="user-row" id="chat_user_'+id+'" data-user-id="'+id+'" onclick="openChatBox(\'chat_user_'+id+'\')">\n'+
-                '<div class="user-img">\n' +
-                '<a href="#"><img src="' + userimage + '" alt=""></a>\n' +
-                '</div>\n'+
-            '<div class="user-info">\n' +
-            '<h4><a href="#">' + username + '</a></h4>\n' +
-                            '<span class="status available" data-status="available">Available</span>\n'+
-                        '</div>\n'+
-                        '<div class="user-status available">\n'+
-                            '<i class="fa fa-circle"></i>\n'+
-                        '</div>\n'+
-                '</li>\n';
-            $('.contact-list').append(html);
+            var html = '<li class="tile user-row" id="chat_user_' + id + '" data-user-id="' + id + '" onclick="openChatBox(\'chat_user_' + id + '\')">' +
+                '<a class="tile-content ink-reaction" href="#" data-toggle="offcanvas" data-backdrop="false">' +
+                '<div class="tile-icon">' +
+                '<img src="' + userimage + '" alt="" />' +
+                '</div>' +
+                '<div class="tile-text">' +
+                '<h4>' + username +'</h4>'+
+                '<small>available</small>' +
+                '</div>' +
+                '</a>' +
+                '</li>';
+            $('#contact-list').append(html);
         }
-
 
         //Toggle chat box display
         function openChatBox(userId) {
-                var name = $('#'+userId).find(".user-info h4 a").html();
-                var img = $('#' +userId).find(".user-img a img").attr("src");
-                var id = $('#' +userId).attr("data-user-id");
-                var status = $('#' +userId).find(".user-info .status").attr("data-status");
+            var name = $('#' + userId).find(".tile-content .tile-text h4").html();
+            var img = $('#' + userId).find(".tile-content .tile-icon img").attr("src");
+            var id = $('#' + userId).attr("data-user-id");
+            //var status = $('#' + userId).find(".user-info .status").attr("data-status");
 
-                if ($('#' + userId).hasClass("active")) {
-                    $('#' + userId).toggleClass("active");
+            if ($('#' + userId).hasClass("active")) {
+                $('#' + userId).toggleClass("active");
 
-                    $(".chatapi-windows #user-window" + id).hide();
+                $(".chatapi-windows #user-window" + id).hide();
 
+            } else {
+                $('#' + userId).toggleClass("active");
+
+                //Check if chatbox has been created/exits (show if true else create new chatbox and show)
+                if ($(".chatapi-windows #user-window" + id).length) {
+                    $(".chatapi-windows #user-window" + id).removeClass("minimizeit").show();
                 } else {
-                    $('#' + userId).toggleClass("active");
-
-                    //Check if chatbox has been created/exits (show if true else create new chatbox and show)
-                    if ($(".chatapi-windows #user-window" + id).length) {
-
-                        $(".chatapi-windows #user-window" + id).removeClass("minimizeit").show();
-
-                    } else {
-                        //var msg = chatformat_msg('Wow! What a Beautiful theme!', 'receive', name);
-                        //msg += chatformat_msg('Yes! Crest Admin Theme ;)', 'sent', 'You');
-                        var msg = chatformat_msg('', '', '');
-                        var html = "<div class='user-window' id='user-window" + id + "' data-user-id='" + id + "'>";
-                        html += "<div class='controlbar'><img src='" + img + "' data-user-id='" + id + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + name + "' data-placement='top' data-color-class='primary'><span class='status " + status + "'><i class='fa fa-circle'></i></span><span class='name'>" + name + "</span><span class='opts'><i class='fa fa-times closeit' data-user-id='" + id + "'></i><i class='fa fa-minus minimizeit' data-user-id='" + id + "'></i></span></div>";
-                        html += "<div class='chatarea'>" + msg + "</div>";
-                        html += "<div class='typearea'><input type='text' data-user-id='" + id + "' placeholder='Type & Enter' class='form-control'></div>";
-                        html += "</div>";
-                        $(".chatapi-windows").append(html);
-                        $(".chatapi-windows #user-window" + id + " .chatarea").scrollTop($(".chatapi-windows #user-window" + id + " .chatarea")[0].scrollHeight);
-                    }
+                    //var msg = chatformat_msg('Wow! What a Beautiful theme!', 'receive', name);
+                    //msg += chatformat_msg('Yes! Crest Admin Theme ;)', 'sent', 'You');
+                    var html = "<div class='user-window' id='user-window" + id + "' data-user-id='" + id + "'>";
+                    html += "<div class='controlbar'>";
+                    html += "<img src='" + img + "' data-user-id='" + id + "' rel='tooltip' data-animate='animated fadeIn' data-toggle='tooltip' data-original-title='" + name + "' data-placement='top' data-color-class='primary' />";
+                    html += "<span class='status " + status + "'><i class='fa fa-circle'></i></span>";
+                    html += "<span class='name' > " + name + "</span >";
+                    html += "<span class='opts'><i class='md md-close closeit' data-user-id='" + id + "'></i><i class='md md-arrow-back minimizeit' data-user-id='" + id + "'></i></span>";
+                    html += "</div>";
+                    html += "<div class='offcanvas-head style-default-bright'>";
+                    html += "<form class='form'>";
+                    html += "<div class='form-group floating-label'>"
+                    html += "<input name='chatMessage' id='chatMessage' class='form-control autosize' data-user-id='" + id + "'/>";
+                    html += "<label for='chatMessage'>Type & Enter</label>";
+                    html += "</div>";
+                    html += "</form>";
+                    html += "</div>";
+                    html += "<div class='offcanvas-body'>";
+                    html += "<ul class='list-chats'>";
+                    html += "</ul>";
+                    html += "</div>";
+                    html += "</div>";
+                    $(".chatapi-windows").append(html);
+                    $(".chatapi-windows").removeClass('hideit').addClass('showit');
                 }
+            }
         }
 
         //create format for message to display in chat box
@@ -262,10 +315,19 @@
             var h = d.getHours();
             var m = d.getMinutes();
             if (msg === '') {
-                return "<div class='chatmsg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'></span></div>";
+                return "";
             }
             else {
-                return "<div class='chatmsg recipient_msg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'>" + h + ":" + m + "</span></div>";
+                html = "<li>";
+                html += "<div class='chat'>";
+                html += "<div class='chat-avatar'><img class='img-circle' src='../../assets/img/avatar1.jpg?1403934956' alt='' /></div>";
+                html += "<div class='chat-body'>"+msg;
+                html += "<small>" + h + ":" + m + "</small>";
+                html += "</div>";
+                html += "</div>";
+                html += "</li>";
+                return html;
+                //return "<div class='chatmsg recipient_msg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'>" + h + ":" + m + "</span></div>";
             }
         }
 
@@ -274,10 +336,18 @@
             var h = d.getHours();
             var m = d.getMinutes();
             if (msg === '') {
-                return "<div class='chatmsg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'></span></div>";
+                return "";
             }
             else {
-                return "<div class='chatmsg sender_msg msg_" + type + "'><span class='name'>" + name + "</span><span class='text'>" + msg + "</span><span class='ts'>" + h + ":" + m + "</span></div>";
+                html = "<li class='chat-left'>";
+                html += "<div class='chat'>";
+                html += "<div class='chat-avatar'><img class='img-circle' src='../../assets/img/avatar1.jpg?1403934956' alt='' /></div>";
+                html += "<div class='chat-body'>" + msg;
+                html += "<small>" + h + ":" + m + "</small>";
+                html += "</div>";
+                html += "</div>";
+                html += "</li>";
+                return html;
             }
         }
     </script>
