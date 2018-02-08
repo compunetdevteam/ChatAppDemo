@@ -464,6 +464,7 @@
                 if ($('#' + windowId).hasClass("active")) {
                     $(".message-area #user-window" + windowId + " .content").append(msg);
                     $(".message-area #user-window" + windowId + " .content").scrollTop($(".message-area #user-window" + windowId + " .content")[0].scrollHeight);
+
                 } else {
                     $('#' + windowId).toggleClass("active");
                     if ($(".message-area #user-window" + windowId).length) {
@@ -471,14 +472,13 @@
                         $(".message-area #user-window" + windowId).removeClass("minimizeit").show();
                         $(".message-area #user-window" + windowId + " .content").append(msg);
                         $(".message-area #user-window" + windowId + " .content").scrollTop($(".message-area #user-window" + windowId + " .content")[0].scrollHeight);
-                        activeChats = activeChats + 1;
                         $('#small-chat span').html(activeChats);
                     } else {
                         activeChats = activeChats + 1;
                         var html = '<div class="small-chat-box fadeInRight animated user-window" id= "user-window' + windowId + '" data-user-id="' + windowId + '">';
                         html += '<div class="heading" draggable="true">';
                         html += '<small class="chat-date pull-right">';
-                        html += '<a href="#"><i class="fa fa-close" onclick="close_box(\'' + id + '\')"></i></a>';
+                        html += '<a href="#"><i class="fa fa-close" onclick="close_box(\'' + windowId + '\')"></i></a>';
                         html += '</small>' + fromUserName;
                         html += '</div>';
                         html += '<div class="content">' + msg;
@@ -494,8 +494,10 @@
                         html += '</div>';
                         html += '</div>';
                         $(".message-area").append(html);
+                        $(".message-area").removeClass('showit');
                         $('#small-chat span').html(activeChats);
                         $(".message-area #user-window" + windowId + " .content").scrollTop($(".message-area #user-window" + windowId + " .content")[0].scrollHeight);
+
                     }
                 }
             };
@@ -602,8 +604,9 @@
 
             if ($('#' + userId).hasClass("active")) {
                 $('#' + userId).toggleClass("active");
-
                 $(".message-area #user-window" + id).hide();
+                activeChats = activeChats - 1;
+                $('#small-chat span').html(activeChats);
 
             } else {
                 $('#' + userId).toggleClass("active");
