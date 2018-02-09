@@ -1,0 +1,9 @@
+﻿#small-chat {
+    position: inherit;
+    right: auto;
+    bottom: auto;
+}
+
+.open-small-chat{
+    min-height:38px !important;
+}

@@ -231,6 +231,7 @@
     <Content Include="Content\bootstrapChat.css" />
     <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\patterns\3.png" />
     <Content Include="Content\css\patterns\4.png" />
     <Content Include="Content\css\patterns\header-profile-skin-1.png" />

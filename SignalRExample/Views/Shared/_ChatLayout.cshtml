@@ -15,6 +15,7 @@
     <link href="~/Content/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
     <link href="~/Content/css/animate.css" rel="stylesheet">
     <link href="~/Content/css/style.css" rel="stylesheet">
+    <link href="~/Content/css/custom.css" rel="stylesheet" />
 </head>
 <body>
     <div id="wrapper">
@@ -384,6 +385,11 @@
                                 <i class="fa fa-tasks"></i>
                             </a>
                         </li>
+                        <li>
+                            <a id="small-chat" class="count-info" href="#">
+                                <i class="fa fa-comments"></i>  <span class="label label-warning">0</span>
+                            </a>
+                            </li>
                     </ul>
 
                 </nav>
@@ -402,14 +408,6 @@
 
     </div>
     <div class="message-area">
-    </div>
-    <div id="small-chat">
-
-        <span class="badge badge-warning pull-right">0</span>
-        <a class="open-small-chat">
-            <i class="fa fa-comments"></i>
-
-        </a>
     </div>
     <div id="right-sidebar" class="animated">
         <div class="sidebar-container">
@@ -442,10 +440,11 @@
     <script src="~/signalr/hubs"></script>
     <script>
         var activeChats = 0;
+        var username = '@User.Identity.GetUserName()';
+        var chat = $.connection.chatHub;
+        var readmoreCount = 0;
         $(document).ready(function () {
             //Create connection object  from signalR
-            var chat = $.connection.chatHub;
-            var username = '@User.Identity.GetUserName()';
             var userimage = "/images/DP/dummy.png";
 
             chat.client.onGetUser = function (list, loginDate, userimg) {
@@ -485,9 +484,9 @@
                         html += '</div>';
                         html += '<div class="form-chat">';
                         html += '<div class="input-group input-group-sm">';
-                        html += '<input type="text" class="form-control chatMessage" data-user-id="' + windowId + '">';
+                        html += '<input type="text" class="form-control chatMessage" data-user-id="' + windowId + '" id="chat' + windowId + '">';
                         html += '<span class="input-group-btn">';
-                        html += '<button class="btn btn-primary" type="button">Send';
+                        html += '<button class="btn btn-primary sendMessage" type="button" onclick="sendMessage(\'' + id + '\')">Send';
                         html += '</button>';
                         html += '</span>';
                         html += '</div>';
@@ -502,36 +501,27 @@
                 }
             };
 
+            //Function initiated by the server side to load previous group chat messages
+            chat.client.getGroupMessages = function (list) {
+                var receivedMessages = list;
+
+                for (var i = 0; i < receivedMessages.length; i++) {
+                    var html = formatGroupChat(receivedMessages[i].name, receivedMessages[i].message);
+                    $('.chat-discussion').prepend(html);
+                    $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
+                }
+
+            };
+
             //Function initiated by the server side due to sent group message by another user
             chat.client.addNewMessageToPage = function (name, message, userCount, list) {
                 var d = new Date();
                 var h = d.getHours();
                 var m = d.getMinutes();
 
-                if (name === username) {
-                    $('.chat-discussion').append('<div class="chat-message right">' +
-                        '<img class="message-avatar" src="/images/DP/dummy.png" alt="">' +
-                        '<div class="message">' +
-                        '<a class="message-author" href="#">' + name + '</a>' +
-                        '<span class="message-date">' + h + ':' + m + '</span>' +
-                        '<span class="message-content">' + message +
-                        '</span>' +
-                        '</div>' +
-                        '</div>');
-                    $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
-                } else {
-                    $('.chat-discussion').append('<div class="chat-message left">' +
-                        '<img class="message-avatar" src="/images/DP/dummy.png" alt="">' +
-                        '<div class="message">' +
-                        '<a class="message-author" href="#">' + name + '</a>' +
-                        '<span class="message-date">' + h + ':' + m + '</span>' +
-                        '<span class="message-content">' + message +
-                        '</span>' +
-                        '</div>' +
-                        '</div>');
-                    $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
-                }
-
+                var html = formatGroupChat(name, message);
+                $('.chat-discussion').append(html);
+                $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
             };
 
             //Call back function for hub.start making a call to ChatHub class (c#)
@@ -563,7 +553,7 @@
 
             //Enter keypress function to listen and send group message
             $(document).on('keypress', ".message-input", function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     var msg = $(this).val();
                     //send message to recipient
                     chat.server.send(username, msg);
@@ -605,7 +595,7 @@
             if ($('#' + userId).hasClass("active")) {
                 $('#' + userId).toggleClass("active");
                 $(".message-area #user-window" + id).hide();
-                activeChats = activeChats - 1;
+                activeChats = activeChats < 1 ? 0 : activeChats - 1;
                 $('#small-chat span').html(activeChats);
 
             } else {
@@ -631,8 +621,12 @@
                         html += '<div class="content">';
                         html += '</div>';
                         html += '<div class="form-chat">';
-                        html += '<div class="input-group input-group-sm chat-input">';
-                        html += '<input type="text" class="form-control chatMessage" data-user-id="'+id+'" placeholder="Type & Enter">';
+                        html += '<div class="input-group input-group-sm">';
+                        html += '<input type="text" class="form-control chatMessage" data-user-id="' + id + '" id="chat' + id + '">';
+                        html += '<span class="input-group-btn">';
+                        html += '<button class="btn btn-primary sendMessage" type="button" onclick="sendMessage(\'' + id + '\')">Send';
+                        html += '</button>';
+                        html += '</span>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -640,7 +634,39 @@
                         $(".message-area #user-window" + id + " .content").scrollTop($(".message-area #user-window" + id + " .content")[0].scrollHeight);
                 }
             }
+            $(".message-area").removeClass('showit');
         }
+
+        //formatGroupChat function to format group chat
+        function formatGroupChat(name, message) {
+            var d = new Date();
+            var h = d.getHours();
+            var m = d.getMinutes();
+            if (name === username) {
+                var html = '<div class="chat-message right">' +
+                    '<img class="message-avatar" src="/images/DP/dummy.png" alt="">' +
+                    '<div class="message">' +
+                    '<a class="message-author" href="#">' + name + '</a>' +
+                    '<span class="message-date">' + h + ':' + m + '</span>' +
+                    '<span class="message-content">' + message +
+                    '</span>' +
+                    '</div>' +
+                    '</div>';
+                return html;
+            } else {
+                var html = '<div class="chat-message left">' +
+                    '<img class="message-avatar" src="/images/DP/dummy.png" alt="">' +
+                    '<div class="message">' +
+                    '<a class="message-author" href="#">' + name + '</a>' +
+                    '<span class="message-date">' + h + ':' + m + '</span>' +
+                    '<span class="message-content">' + message +
+                    '</span>' +
+                    '</div>' +
+                    '</div>';
+                return html;
+            }
+        }
+
 
         //create format for message to display in chat box
         function chatformat_msg(msg, type, name) {
@@ -681,14 +707,35 @@
                 html += '</div>';
                 return html;
             }
-            }
+        }
 
-            function close_box(id) {
+        function fetchGroupMessages() {
+            readmoreCount = readmoreCount + 20;
+            chat.server.sendGroupMessages(readmoreCount);
+        }
+
+        function sendMessage(userId) {
+            var id = userId;
+            console.log(id);
+                var msg = $('#chat' + id).val();
+                var userId = '@User.Identity.GetUserId()';
+                    //send message to recipient
+                    chat.server.sendPrivateMessage(id, msg, userId);
+                    msg = chatformat_msg(msg, 'sent', 'You');
+                    //Add message to senders chat window
+                    $(".message-area #user-window" + id + " .content").append(msg);
+                    $('#chat'+id).val("");
+                    $('#chat' + id).focus();
+                    $(".message-area #user-window" + id + " .content").scrollTop($(".message-area #user-window" + id + " .content")[0].scrollHeight);
+                    e.preventDefault();
+        }
+
+        function close_box(id) {
                 console.log(id);
                 $('#user-window' + id).hide();
-                activeChats = activeChats - 1;
+                activeChats = activeChats < 1 ? 0 : activeChats - 1;
                 $('#small-chat span').html(activeChats);
-            }
+        }
     </script>
 
     @RenderSection("scripts", required: false)
