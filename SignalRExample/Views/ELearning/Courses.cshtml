@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "Courses Page";
+    Layout = "~/Views/Shared/_ELearningLayout.cshtml";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Courses</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index-2.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Courses</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content coursedropdown">
+                    <div class="file-manager">
+
+                        <button class="btn btn-primary btn-block">Courses</button>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox-content">
+
+                            <div id="jstree1">
+                                <ul>
+                                    <li class="jstree-open top-list">
+                                        Courses
+                                        <ul>
+                                            <li>
+                                                Module1
+                                                <ul>
+                                                    <li>Topic1</li>
+                                                    <li>Topic2</li>
+                                                    <li>Topic3</li>
+                                                    <li>Topic4</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                Module2
+                                                <ul>
+                                                    <li>Topic1</li>
+                                                    <li>Topic2</li>
+                                                    <li>Topic3</li>
+                                                    <li>Topic4</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                Module3
+                                                <ul>
+                                                    <li>Topic1</li>
+                                                    <li>Topic2</li>
+                                                    <li>Topic3</li>
+                                                    <li>Topic4</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                Module4
+                                                <ul>
+                                                    <li>Topic1</li>
+                                                    <li>Topic2</li>
+                                                    <li>Topic3</li>
+                                                    <li>Topic4</li>
+                                                </ul>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="#" id="pdfLauncher">
+                                <span class="corner"></span>
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    Document_2014.pdf
+                                    <br>
+                                    <small>Added: Jan 11, 2014</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="#" id="audioLauncher">
+                                <span class="corner"></span>
+                                <div class="icon">
+                                    <i class="fa fa-music"></i>
+                                </div>
+                                <div class="file-name">
+                                    Michael Jackson.mp3
+                                    <br>
+                                    <small>Added: Jan 22, 2014</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="#" id="videoLauncher">
+                                <span class="corner"></span>
+                                <div class="icon">
+                                    <i class="img-responsive fa fa-film"></i>
+                                </div>
+                                <div class="file-name">
+                                    Monica's birthday.mp4
+                                    <br>
+                                    <small>Added: Fab 18, 2014</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="videoContent">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Video window</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">Config option 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <figure>
+                        <iframe src="http://www.youtube.com/embed/bwj2s_5e12U" allowfullscreen="" data-aspectratio="0.8211764705882353" style="width: 484.5px; height: 397.86px;" frameborder="0"></iframe>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Video description</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">Config option 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content profile-content">
+                    <h4><strong>Microsoft's Concept of How 2019 Will Look Like - Official Video</strong></h4>
+                    <p><i class="fa fa-clock-o"></i> Uploaded on October 27, 2011</p>
+                    <h5>
+                        Science and Technology
+                    </h5>
+                    <p>
+                        What do you think the world will look like in 2019? Predicting future trends is usually done poorly by Analysts so company's seem to want to give consumer a glimpse of what
+                        they want the future to look like.
+                        <br>
+                        <br>
+                        <small>Microsoft has just released a video showcasing magical<br> gadget after magical gadget.</small>
+                        <br>
+                        <br>
+                        Earlier this month "Microsoft Office Labs Vision 2019,"
+                        was released and now we have "Productivity Future Vision (2011)". Both are inspiring and beautifully edited.
+                    </p>
+                    <div class="row m-t-md">
+                        <div class="col-md-3">
+                            <h5><strong>169</strong> Likes</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <h5><strong>28</strong> Comments</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="audioContent">
+        <div class="col-lg-12">
+            <div class="audio green-audio-player">
+                <audio controls>
+                    <source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/Swing_Jazz_Drum.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="pdfContent">
+        <div class="text-center pdf-toolbar">
+            <div class="btn-group">
+                <button id="prev" class="btn btn-white"><i class="fa fa-long-arrow-left"></i> <span class="hidden-xs">Previous</span></button>
+                <button id="next" class="btn btn-white"><i class="fa fa-long-arrow-right"></i> <span class="hidden-xs">Next</span></button>
+                <button id="zoomin" class="btn btn-white"><i class="fa fa-search-minus"></i> <span class="hidden-xs">Zoom In</span></button>
+                <button id="zoomout" class="btn btn-white"><i class="fa fa-search-plus"></i> <span class="hidden-xs">Zoom Out</span> </button>
+                <button id="zoomfit" class="btn btn-white"> 100%</button>
+                <span class="btn btn-white hidden-xs">Page: </span>
+                <div class="input-group">
+                    <input class="form-control" id="page_num" type="text">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-white" id="page_count">/ 22</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="pull-right">
+        10GB of <strong>250GB</strong> Free.
+    </div>
+    <div>
+        <strong>Copyright</strong> Example Company &copy; 2014-2017
+    </div>
+</div>
